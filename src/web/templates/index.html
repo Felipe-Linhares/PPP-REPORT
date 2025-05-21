@@ -148,7 +148,15 @@
             const formatList = (items) => items
                 .split('\n')
                 .filter(item => item.trim())
-                .map(item => `- ${item.trim()}`)
+                .map(item => {
+                    // Capitalize first letter and ensure period at end
+                    let formattedItem = item.trim();
+                    formattedItem = formattedItem.charAt(0).toUpperCase() + formattedItem.slice(1);
+                    if (!formattedItem.endsWith('.')) {
+                        formattedItem += '.';
+                    }
+                    return `- ${formattedItem}`;
+                })
                 .join('\n');
 
             return `Data: ${data.date}
