@@ -159,18 +159,19 @@
                 })
                 .join('\n');
 
-            const report = `Data: ${data.date}
-Squad: ${data.squad}
-Sprint: ${data.sprint}
-
-Progressos:
-${formatList(data.progressos)}
-
-Planos:
-${formatList(data.planos)}
-
-Problemas:
-${formatList(data.problemas)}`;
+            const report = `PPP REPORT
+        DATA: ${data.date}
+        SQUAD: ${data.squad}
+        SPRINT(s): ${data.sprint}
+        ===========
+        PROGRESSOS
+        ${formatList(data.progressos)}
+        ===========
+        PLANOS
+        ${formatList(data.planos)}
+        ===========
+        PROBLEMAS
+        ${formatList(data.problemas)}`;
 
             return report;
         }
