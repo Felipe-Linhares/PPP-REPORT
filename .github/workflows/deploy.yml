@@ -25,23 +25,24 @@ jobs:
       - name: Create site structure
         run: |
           mkdir -p _site
-          mkdir -p _site/static/css
-          mkdir -p _site/static/js
+          mkdir -p _site/css
+          mkdir -p _site/js
       
       - name: Copy web files
         run: |
-          cp -r src/web/templates/* _site/
-          cp -r src/web/static/css/* _site/static/css/
-          cp -r src/web/static/js/* _site/static/js/ || true
+          cp src/web/templates/index.html _site/
+          cp -r src/web/static/css/* _site/css/ || true
+          cp -r src/web/static/js/* _site/js/ || true
           
       - name: Process HTML files
         run: |
           cd _site
-          for file in *.html; do
-            if [ -f "$file" ]; then
-              sed -i 's#{{ url_for("static", filename="\([^"]*\)") }}#static/\1#g' "$file"
-            fi
-          done
+          sed -i 's#{{ url_for("static", filename="\([^"]*\)") }}#\1#g' index.html
+          
+      - name: List files for debugging
+        run: |
+          echo "Contents of _site directory:"
+          ls -R _site
       
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
