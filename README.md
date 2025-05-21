@@ -11,8 +11,6 @@ Aplicação desktop para geração e gerenciamento de relatórios PPP (Progresso
   - Preenchimento automático da data atual
 - **Gerenciamento de Squad**:
   - Seleção de squad pré-configurada
-  - Capacidade de adicionar novos squads
-  - Lista de squads ordenada alfabeticamente
 - **Seções do Relatório**:
   - Progressos
   - Planos
