@@ -19,35 +19,26 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
       
-      - name: Setup Pages
-        uses: actions/configure-pages@v5
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
       
-      - name: Create site structure
+      - name: Install dependencies
         run: |
-          mkdir -p _site
-          mkdir -p _site/css
-          mkdir -p _site/js
+          python -m pip install --upgrade pip
+          pip install -r requirements-web.txt
+          pip install Frozen-Flask
       
-      - name: Copy web files
+      - name: Build static site
         run: |
-          cp src/web/templates/index.html _site/
-          cp -r src/web/static/css/* _site/css/ || true
-          cp -r src/web/static/js/* _site/js/ || true
-          
-      - name: Process HTML files
-        run: |
-          cd _site
-          sed -i 's#{{ url_for("static", filename="\([^"]*\)") }}#\1#g' index.html
-          
-      - name: List files for debugging
-        run: |
-          echo "Contents of _site directory:"
-          ls -R _site
+          cd src/web
+          python freeze.py
       
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: '_site'
+          path: 'src/web/build'
 
   deploy:
     environment:
