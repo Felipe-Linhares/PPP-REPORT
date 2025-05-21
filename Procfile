@@ -1,0 +1,1 @@
+web: pip install -r requirements-web.txt && gunicorn --config gunicorn_config.py src.web.app:app
