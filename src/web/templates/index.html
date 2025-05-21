@@ -159,7 +159,7 @@
                 })
                 .join('\n');
 
-            return `Data: ${data.date}
+            const report = `Data: ${data.date}
 Squad: ${data.squad}
 Sprint: ${data.sprint}
 
@@ -171,6 +171,8 @@ ${formatList(data.planos)}
 
 Problemas:
 ${formatList(data.problemas)}`;
+
+            return report;
         }
 
         // Copy function
