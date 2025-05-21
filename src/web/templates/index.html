@@ -145,19 +145,22 @@
             document.getElementById('report').textContent = report;
         }
         function generateReport(data) {
-            const formatList = (items) => items
-                .split('\n')
-                .filter(item => item.trim())
-                .map(item => {
-                    // Capitalize first letter and ensure period at end
-                    let formattedItem = item.trim();
-                    formattedItem = formattedItem.charAt(0).toUpperCase() + formattedItem.slice(1);
-                    if (!formattedItem.endsWith('.')) {
-                        formattedItem += '.';
-                    }
-                    return `- ${formattedItem}`;
-                })
-                .join('\n');
+            const formatList = (items) => {
+                const trimmedItems = items.split('\n').filter(item => item.trim());
+                if (trimmedItems.length === 0) {
+                    return '- Nenhum.';
+                }
+                return trimmedItems
+                    .map(item => {
+                        let formattedItem = item.trim();
+                        formattedItem = formattedItem.charAt(0).toUpperCase() + formattedItem.slice(1);
+                        if (!formattedItem.endsWith('.')) {
+                            formattedItem += '.';
+                        }
+                        return `- ${formattedItem}`;
+                    })
+                    .join('\n');
+            };
 
             const report = `PPP REPORT
 DATA: ${data.date}
