@@ -5,6 +5,8 @@ on:
     branches: [ main ]
     tags:
       - 'v*'
+    paths-ignore:
+      - 'src/web/**'  # Ignore web files changes
 
 jobs:
   build:
@@ -32,13 +34,11 @@ jobs:
       uses: softprops/action-gh-release@v1
       if: startsWith(github.ref, 'refs/tags/')
       with:
+        files: dist/Gerador*.exe
         name: Release ${{ github.ref_name }}
         body: |
           Gerador de PPP - Release ${{ github.ref_name }}
           
           Executável gerado automaticamente pelo GitHub Actions.
-        draft: false
-        prerelease: false
-        files: dist/Gerador*.exe
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
