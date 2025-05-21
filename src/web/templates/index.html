@@ -99,7 +99,33 @@
         });
 
         // Real-time update function
-        async function updatePreview() {
+        // async function updatePreview() {
+        //     // Format date from YYYY-MM-DD to DD/MM/YYYY
+        //     const rawDate = document.getElementById('date').value;
+        //     const [year, month, day] = rawDate.split('-');
+        //     const formattedDate = `${day}/${month}/${year}`;
+
+        //     const data = {
+        //         date: formattedDate,
+        //         squad: document.getElementById('squad').value || '',
+        //         sprint: document.getElementById('sprint').value,
+        //         progressos: document.querySelector('.tab-content[data-tab="progressos"] textarea').value,
+        //         planos: document.querySelector('.tab-content[data-tab="planos"] textarea').value,
+        //         problemas: document.querySelector('.tab-content[data-tab="problemas"] textarea').value
+        //     };
+
+        //     const response = await fetch('/generate', {
+        //         method: 'POST',
+        //         headers: {
+        //             'Content-Type': 'application/json'
+        //         },
+        //         body: JSON.stringify(data)
+        //     });
+
+        //     const result = await response.json();
+        //     document.getElementById('report').textContent = result.report;
+        // }
+        function updatePreview() {
             // Format date from YYYY-MM-DD to DD/MM/YYYY
             const rawDate = document.getElementById('date').value;
             const [year, month, day] = rawDate.split('-');
@@ -114,16 +140,29 @@
                 problemas: document.querySelector('.tab-content[data-tab="problemas"] textarea').value
             };
 
-            const response = await fetch('/generate', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(data)
-            });
+            // Generate report directly in the browser
+            const report = generateReport(data);
+            document.getElementById('report').textContent = report;
+        }
+        function generateReport(data) {
+            const formatList = (items) => items
+                .split('\n')
+                .filter(item => item.trim())
+                .map(item => `- ${item.trim()}`)
+                .join('\n');
 
-            const result = await response.json();
-            document.getElementById('report').textContent = result.report;
+            return `Data: ${data.date}
+Squad: ${data.squad}
+Sprint: ${data.sprint}
+
+Progressos:
+${formatList(data.progressos)}
+
+Planos:
+${formatList(data.planos)}
+
+Problemas:
+${formatList(data.problemas)}`;
         }
 
         // Copy function
@@ -138,6 +177,7 @@
                 button.classList.remove('copied');
             }, 2000);
         }
+
     </script>
 </body>
 
