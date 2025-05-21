@@ -1,12 +1,10 @@
 name: Build Executable
 
 on:
+  workflow_dispatch:
   push:
-    branches: [ main ]
-    tags:
-      - 'v*'
     paths-ignore:
-      - 'src/web/**'  # Ignore web files changes
+      - 'src/web/**'
 
 jobs:
   build:
