@@ -1,10 +1,6 @@
 name: Deploy to GitHub Pages
 
 on:
-  push:
-    branches: ["main"]
-    paths:
-      - 'src/web/**'  # Only run when web files change
   workflow_dispatch:
 
 permissions:
@@ -26,17 +22,25 @@ jobs:
       - name: Setup Pages
         uses: actions/configure-pages@v5
       
-      - name: Copy web files
+      - name: Create site structure
         run: |
           mkdir -p _site
+          mkdir -p _site/static/css
+          mkdir -p _site/static/js
+      
+      - name: Copy web files
+        run: |
           cp -r src/web/templates/* _site/
-          cp -r src/web/static _site/
+          cp -r src/web/static/css/* _site/static/css/
+          cp -r src/web/static/js/* _site/static/js/ || true
           
       - name: Process HTML files
         run: |
           cd _site
           for file in *.html; do
-            sed -i 's#{{ url_for(\"static\", filename=\"\([^\"]*\)\") }}#static/\1#g' "$file"
+            if [ -f "$file" ]; then
+              sed -i 's#{{ url_for("static", filename="\([^"]*\)") }}#static/\1#g' "$file"
+            fi
           done
       
       - name: Upload artifact
